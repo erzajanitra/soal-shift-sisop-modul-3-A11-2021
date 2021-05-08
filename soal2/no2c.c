@@ -52,18 +52,18 @@ int main(){
 	        	close(0);
 		        dup(fd1[0]);
 		        close(fd1[1]);
-                
-                close(1);
-                dup(fd2[1]);
-                close(fd2[0]);
-		        char *sort[] = {"sort", "-nrk", "3,3", NULL};
-		        execv("/usr/bin/sort", sort);
-	        }
+
+			close(1);
+			dup(fd2[1]);
+			close(fd2[0]);
+				char *head[] = {"head", "-5", NULL};
+				execv("/usr/bin/head", head);
+			}
     }else{
-                close(0);
+                	close(0);
 		        dup(fd2[0]);
 		        close(fd2[1]);
-		        char *head[] = {"head","-5",NULL};
-		        execv("/usr/bin/head", head);
+		        char *sort[] = {"sort","-nrk","3,3",NULL};
+		        execv("/usr/bin/sort", sort);
     }    
 }
