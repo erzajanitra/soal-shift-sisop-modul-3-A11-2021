@@ -1,11 +1,3 @@
-
-/*
-
-2. Buatlah sebuah program untuk menampilkan file 
-pada urutan ketiga dari sebuah direktori, 
-dengan menggunakan pipe dan command ls, head, tail.
-
-*/
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
