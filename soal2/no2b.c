@@ -20,22 +20,33 @@ struct pair{
 void* faktorial(void *pairs){
 
     struct pair *pair = (struct pair *)pairs;
-
-    if(pair->angka == 0 || pair->batas == 0){
+    int angka = pair->angka;
+    int batas = pair->batas;
+    if(angka == 0 || batas == 0){
         printf("0\n");
-    }else if(pair->batas > pair->angka){
-        while(pair->angka>0){
-            if(iter == pair->angka) printf("%d",iter);
-            else printf("%d*",iter);
-            pair->angka--;
+    }else{
+        if(batas > angka){
+            while(angka>0){
+                if(angka == 1){
+                    printf("%d",angka);
+                }else{
+                    printf("%d*",angka);
+                }
+                angka--;
+            }
+            printf("\n");
+        }else if(angka >= batas){
+            while(batas>0){
+                if(batas == 1){
+                    printf("%d",angka);
+                }else{
+                    printf("%d*",angka);
+                }
+                angka--;
+                batas--;
+            }
+            printf("\n");
         }
-        printf("\n");
-    }else if(pair->angka >= pair->batas){
-        for(iter=pair->angka; iter>pair->angka-pair->batas; iter--){
-            if(iter == (pair->angka-pair->batas)-1) printf("%d",iter);
-            else printf("%d*",iter);
-        }
-        printf("\n");
     }
 }
 
@@ -66,8 +77,10 @@ void main(){
             if(error != 0){
                 printf("\nCan't create thread : [%s]",strerror(error));
             }   
-            pthread_join(tid[iter],NULL);
+
+            pthread_join(tid[i],NULL);
     }
+
     sleep(50);
 
     shmdt(value);
