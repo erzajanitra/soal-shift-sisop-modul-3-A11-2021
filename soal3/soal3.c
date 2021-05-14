@@ -37,7 +37,7 @@ int checkIfFileExists(const char * filename)
 }
 
 //cek extension
-void cekExt(char* fileName,char *ext){
+void cekExt(char* fileName,char *ext){ 
     char *extt=strchr(fileName,'.'); //kalau ada 2 ext->ambil paling depan
     if(extt==fileName){
         strcpy(ext,"Hidden");
@@ -67,7 +67,7 @@ int listFilesRecursively(char *basePath)
     {
         if (strcmp(dp->d_name, ".") != 0 && strcmp(dp->d_name, "..") != 0)
         {
-            char destDir[100];
+            char destDir[1000];
             strcpy(destDir,basePath);
             strcat(destDir,"/");
             strcat(destDir,dp->d_name);
@@ -94,32 +94,32 @@ void *moveFile(void* argc){
     char* src=(char*) argc;
 
     //pindah file
-    char file[100];
+    char file[1000];
     strcpy(file,src);
     //printf("%s",file);
        
     char *ndir,*dir;
-    char x='/';
+    char x='/'; // home/usr/modul /soal.c
     char y='.';
     dir = strrchr(file,x); //yg pertamakali dijumpai
     ndir = strchr(file, y); 
-    char ext[100];
+    char ext[1000];
     //printf("%s",dir);
     if (dir){
         //ngecek file/dir/ada ngga
         if(checkIfFileExists(file)){
-            cekExt(dir,ext);
+            cekExt(dir+1,ext);
         }
         else{
             return 0;
         }
     }
     mkdir(ext,0777);//extension dir
-  
-    char path[100];
+    //src
+    char path[1000];
     strcpy(path,(char*) argc);
-
-    char fileCat[100];
+    //dst
+    char fileCat[1000];
     getcwd(fileCat,sizeof(path));
     strcat(fileCat,"/");
     strcat(fileCat,ext);
@@ -135,7 +135,7 @@ void *moveFile(void* argc){
 
 int main(int argc, char* argv[]){
     
-    char src[100];
+    char src[1000];
     //get dir
     getcwd(dest,sizeof(dest));
     strcpy(src,dest);
