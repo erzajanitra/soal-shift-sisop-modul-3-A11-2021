@@ -101,7 +101,9 @@ else if(strcmp(argv[1],"-d")==0){
 if(strcmp(argv[1],"-d")==0) printf("Berhasil disimpan\n");
 ```
   Pesan ini akan ditampilkan apabila proses rekursif untuk memindahkan semua isi pada directory path yang telah dikategorikan ke current working directory sudah berhasil.
-  
+* Output no 3b <br/>
+![image](https://user-images.githubusercontent.com/75319371/119086040-14cadb00-ba2f-11eb-9aac-3e75d9bff7c5.png)
+
 ### 3c
 **Soal :** program ini menerima opsi * yang akan mengkategorikan seluruh file yang ada di working directory ketika menjalankan program C tersebut.
 * Menerima argumen *
@@ -111,6 +113,8 @@ else if(strcmp(argv[1],"*")==0){
     }
 ```
   Menggunakan *strcmp* untuk membandingkan argumen input apakah sesuai dengan argumen input yang diminta yaitu **\***. Path tersebut akan disimpan di sebuah char *dir*.
+* Output no 3c <br/>
+![image](https://user-images.githubusercontent.com/75319371/119086331-89057e80-ba2f-11eb-93cf-070f67f666ad.png)
 
 ### 3d
 **Soal :** Semua file harus berada di dalam folder, jika terdapat file yang tidak memiliki ekstensi, file disimpan dalam folder “Unknown”. Jika file hidden, masuk folder “Hidden”
@@ -133,7 +137,9 @@ void cekExt(char* fileName,char *ext){
 }
 ```
   File hidden adalah file yang memiliki awalan *.* pada nama file, sehingga jika file diawali dengan *.* maka akan membuat kategori file *Hidden*. Kemudian, jika file tidak punya extension dibelakanganya maka akan dikategorikan sebagai *Unknown*. Untuk nama extension yang ditulis dengan uppercase dapat diubah menjadi lowercase dengan menggunakan *tolower*.
-  
+* Isi folder Unknown <br/>
+ ![image](https://user-images.githubusercontent.com/75319371/119086578-dc77cc80-ba2f-11eb-99c0-ddf933d2130d.png) <br/>
+
 ### 3e
 **Soal :** Setiap 1 file yang dikategorikan dioperasikan oleh 1 thread agar bisa berjalan secara paralel sehingga proses kategori bisa berjalan lebih cepat.
 ```
