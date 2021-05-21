@@ -3,6 +3,152 @@
 
 ## Soal 2
 
+Soal No 2 :
+2A : https://github.com/erzajanitra/soal-shift-sisop-modul-3-A11-2021/blob/main/soal2/no2a.c
+2B : https://github.com/erzajanitra/soal-shift-sisop-modul-3-A11-2021/blob/main/soal2/no2b.c
+
+### 2a
+**Soal :** Membuat program perkalian matrix (4x3 dengan 3x6) dan menampilkan hasilnya. Matriks nantinya akan berisi angka 1-20 (tidak perlu dibuat filter angka).
+
+* mendefinisikan matriks
+```
+    int matrix1[4][3];
+    int matrix2[3][6];
+    int hasil[4][6];
+```
+* mengassign angka random pada matriks dan mengkalikan keduanya dan diassign menuju matriks hasil
+```
+ printf("---- Matrix 1 ----\n");
+    for(i=0;i<4;i++){
+        for(j=0;j<3;j++){
+            matrix1[i][j]=(rand()%4);
+            printf("%d \t",matrix1[i][j]);
+        }
+        printf("\n");
+    }
+
+    puts("");
+
+    printf("---- Matrix 2 ----\n");
+    for(i=0;i<3;i++){
+        for(j=0;j<6;j++){
+            matrix2[i][j]=(rand()%4);
+            printf("%d \t",matrix2[i][j]);
+        }
+        printf("\n");
+    }
+    
+    for(i=0;i<4;i++){
+            for(j=0;j<6;j++){
+                for(k=0;k<3;k++){
+                    add = add + matrix1[i][k] * matrix2[k][j];
+                }
+                hasil[i][j] = add;
+                printf("%d\t",hasil[i][j]);
+                add = 0;
+            }
+            printf("\n");
+        }
+    
+    puts("");
+```
+modulo 4 pada setiap value-assignmentnya bertujuan untuk menghasilkan angka 1 digit dan bernilai tidak terlalu besar. sehingga ketika dikalikan antara kedua matriksnya akan menghasilkan angka yg tidak lebih dari 20.
+
+* membuat shared memory untuk dipasangkan dengan program kedua
+```
+ key_t key = 1234;
+        int *value;
+        int shmid = shmget(key, sizeof(int)*6*4, IPC_CREAT | 0666);
+        value = (int *)shmat(shmid, NULL, 0);
+```
+* mengassign array hasil kepada pointer tertaut pada shared memory yang nantinya nilai-nilai ini akan digunakan secara bersamaan oleh kedua program. value dibuat berbentuk array 1 dimensi menampung secara urut nilai-nilai pada matriks hasil dimulai dari setiap barisnya.
+```
+    int a=0;
+    printf("---- Hasil ----\n");
+    for(i=0;i<4;i++){
+        for(j=0;j<6;j++){
+            value[a] = hasil[i][j];
+            printf("%d\t",value[a]);
+            a++;
+        }
+        printf("\n");
+    }
+```
+
+### 2b
+**Soal :** Membuat program dengan menggunakan matriks output dari program sebelumnya (program soal2a.c) (Catatan!: gunakan shared memory). Kemudian matriks tersebut akan dilakukan perhitungan dengan matrix baru (input user) sebagai berikut contoh perhitungan untuk matriks yang ada. Perhitungannya adalah setiap cel yang berasal dari matriks A menjadi angka untuk faktorial, lalu cel dari matriks B menjadi batas maksimal faktorialnya matri(dari paling besar ke paling kecil) (Catatan!: gunakan thread untuk perhitungan di setiap cel). 
+
+* membuat input user yang akan dipasangkan dengan variabel yang menampung matriks hasil (variabel value)
+```
+printf("Masukkan 24 Input :\n");
+    for(iter=0;iter<24;iter++){
+        scanf("%d",&inputs[iter]);
+    }
+```
+* membuat struct untuk memasangkan tiap-tiap value dan input user
+```
+struct pair{
+    int angka;
+    int batas;
+};
+```
+* mengassign tiap array ke dalam struct berdasarkan index serta membuat thread agar proses dapat bersambung
+```
+for(iter=0;iter<24;iter++){
+            xresult[iter] = value[iter];
+            struct pair pair;
+            pair.angka = xresult[iter];
+            pair.batas = inputs[iter];
+
+            int error = pthread_create(&tid[iter],NULL,faktorial,(void*)&pair);
+
+            if(error != 0){
+                printf("\nCan't create thread : [%s]",strerror(error));
+            }   
+
+            pthread_join(tid[i],NULL);
+    }
+```
+* memunculkan faktorial sesuai dengan ketentuan yg berada pada soal dimana ketika input lebih besar daripada hasil perkalian matriks pada array value maka akan dioutputkan seluruh faktorialnya. dan apabila input lebih kecil daripada hasil perkalian matriks pada array value maka akan dioutputkan faktorialnya hingga batas inputnya. dan apabila input nol maka akan dioutputkan nol.
+```
+void* faktorial(void *pairs){
+
+    struct pair *pair = (struct pair *)pairs;
+    int angka = pair->angka;
+    int batas = pair->batas;
+    if(angka == 0 || batas == 0){
+        printf("0\n");
+    }else{
+        if(batas > angka){
+            while(angka>0){
+                if(angka == 1){
+                    printf("%d",angka);
+                }else{
+                    printf("%d*",angka);
+                }
+                angka--;
+            }
+            printf("\n");
+        }else if(angka >= batas){
+            while(batas>0){
+                if(batas == 1){
+                    printf("%d",angka);
+                }else{
+                    printf("%d*",angka);
+                }
+                angka--;
+                batas--;
+            }
+            printf("\n");
+        }
+    }
+}
+```
+
+### 2c
+**Soal :**
+
+
 ## Soal 3
 ### Fungsi ``moveFile`` untuk membuat kategori file
 ```
