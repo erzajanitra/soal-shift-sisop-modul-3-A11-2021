@@ -4,8 +4,8 @@
 ## Soal 2
 
 Soal No 2 :
-2A : https://github.com/erzajanitra/soal-shift-sisop-modul-3-A11-2021/blob/main/soal2/no2a.c
-2B : https://github.com/erzajanitra/soal-shift-sisop-modul-3-A11-2021/blob/main/soal2/no2b.c
+2A : [no2a](https://github.com/erzajanitra/soal-shift-sisop-modul-3-A11-2021/blob/main/soal2/no2a.c)
+2B : [no2b](https://github.com/erzajanitra/soal-shift-sisop-modul-3-A11-2021/blob/main/soal2/no2b.c)
 
 ### 2a
 **Soal :** Membuat program perkalian matrix (4x3 dengan 3x6) dan menampilkan hasilnya. Matriks nantinya akan berisi angka 1-20 (tidak perlu dibuat filter angka).
