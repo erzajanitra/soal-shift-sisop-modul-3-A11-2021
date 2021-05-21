@@ -144,6 +144,9 @@ void* faktorial(void *pairs){
     }
 }
 ```
+* output 2A dan 2B
+![image](https://user-images.githubusercontent.com/69724694/119107391-63856e80-ba49-11eb-85cc-422f7024df8b.png)
+
 
 ### 2c
 **Soal :**
