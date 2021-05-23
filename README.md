@@ -1,11 +1,96 @@
 # soal-shift-sisop-modul-3-A11-2021
 ## Soal 1
-### 1a
-**Soal :** Pada saat client tersambung dengan server, terdapat dua pilihan pertama, yaitu register dan login. Jika memilih register, client akan diminta input id dan
-passwordnya untuk dikirimkan ke server. User juga dapat melakukan login. Login berhasil jika id dan password yang dikirim dari aplikasi client sesuai dengan list
-akun yang ada didalam aplikasi server. Sistem ini juga dapat menerima multi-connections. Koneksi terhitung ketika aplikasi client tersambung dengan server. Jika terdapat 2 koneksi atau lebih maka harus menunggu sampai clientpertama keluar untuk bisa melakukan login dan mengakses aplikasinya. Keverk menginginkan lokasi penyimpanan id dan password pada file bernama akun.txt 
+### Server
+#### 1a
+* Register
+```
+            char str[100];
+            send(new_socket,"Username : ",11,0);
+            read(new_socket,buffer,1024);
+            strcpy(str,buffer);
+            bzero(buffer,sizeof(buffer));
+            
+            strcat(str,":");
+            send(new_socket,"Password : ",11,0);
+            read(new_socket,buffer,1024);
+            strcat(str,buffer);
+            bzero(buffer,sizeof(buffer));
+
+            fprintf(fp,"%s\n",str);
+            fclose(fp);
+```
+   Server menerima message *register* dari client, kemudiaan mengirimkan message permintaan *username* dan *password*. Setelah itu, server akan menyimpan username dan password dalam file *akun.txt*
+* Login
+```
+            char str[100];
+            send(new_socket,"Username : ",11,0);
+            read(new_socket,buffer,1024);
+            strcpy(str,buffer);
+            bzero(buffer,sizeof(buffer));
+            
+            strcat(str,":");
+            send(new_socket,"Password : ",11,0);
+            read(new_socket,buffer,1024);
+            strcat(str,buffer);
+            bzero(buffer,sizeof(buffer));
+
+            char data2[100];
+            while(fgets(data2, sizeof(data2),fr) != NULL){
+                if(strstr(data2,str) != 0){
+                    flag = 1;
+                    send(new_socket,"Login Success!\n",15,0);
+```
+   Server menerima *login* message dari client, kemudian mengirimkan permintaan *username* dan *password*. Server akan mengecek *username* dan *password*. Jika berhasil ditemukan maka akan menyimpan user yang sedang login dan mengirim pesan sukses. Apabila tidak ditemukan, maka akan mengirim pesan login gagal.
+   
+### Client
+* Register
+```
+            char reg_id[100], reg_pass[100];
+            read(sock,buffer,1024);
+            printf("%s",buffer);
+            bzero(buffer,sizeof(buffer));
+
+            scanf("%s",reg_id);
+            send(sock,reg_id,strlen(reg_id),0);
+
+            read(sock,buffer,1024);
+            printf("%s",buffer);
+            bzero(buffer,sizeof(buffer));
+
+            scanf("%s",reg_pass);
+            send(sock,reg_pass,strlen(reg_pass),0);
+ ```
+   Client mengirim message *register* ke server, kemudiaan memasukkan *username* dan *password*.
+* Login
+```
+            char log_id[100], log_pass[100], status[50];
+            read(sock,buffer,1024);
+            printf("%s",buffer);
+            bzero(buffer,sizeof(buffer));
+
+            scanf("%s",log_id);
+            send(sock,log_id,strlen(log_id),0);
+
+            read(sock,buffer,1024);
+            printf("%s",buffer);
+            bzero(buffer,sizeof(buffer));
+
+            scanf("%s",log_id);
+            send(sock,log_id,strlen(log_id),0);
+
+            read(sock,buffer,1024);
+            printf("%s",buffer);
+            strcpy(status,buffer);
+            bzero(buffer,sizeof(buffer));
+
+            if(strstr(status,"Login Success!\n") != 0){
+                flag = 1;
+            }
+```
+   Client mengirim message *login* ke server, kemudiaan memasukkan *username* dan *password*.
 
 #### Kendala yang dialami
+1. Tidak bisa melakukan register dan login karena terjadi segmentation fault pada sisi server dan client ketika memasukkan username dan password
 
 #### Screenshot Eror
 1. Terjadi segmentation fault ketika ingin login dengan mengisi username dan password <br/>
