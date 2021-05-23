@@ -42,8 +42,9 @@ int main(int argc, char const *argv[]) {
         printf("Client Ready!\n");
         send(sock,"Client Enter!\n",14,0);    
   
-    while(sock){
+    while(1){
 
+        if(flag == 0){
         //printf("Ini Flag : %d\n",flag);
        
         read(sock,buffer,1024);
@@ -97,7 +98,7 @@ int main(int argc, char const *argv[]) {
         
         }
         
-        while(flag == 1){
+        }else if(flag == 1){
 
             printf("User Authority\n");
 
@@ -105,13 +106,8 @@ int main(int argc, char const *argv[]) {
                 send(sock,data,strlen(data),0);
 
             if(strstr(data,"add") != 0){
-                read(sock, buffer, 1024);
-                printf("%s\n", buffer);
-                char filename[100];
-                scanf("%s", filename);
-                bzero(buffer, sizeof(buffer));
-                send(sock, filename, strlen(filename), 0);
 
+                printf("-----Add Session!------\n");
                 read(sock, buffer, 1024);
                 printf("%s\n", buffer);
                 char publisher[100];
@@ -125,9 +121,32 @@ int main(int argc, char const *argv[]) {
                 scanf("%s", year_pub);
                 bzero(buffer, sizeof(buffer));
                 send(sock, year_pub, strlen(year_pub), 0);
-                
+
+                read(sock, buffer, 1024);
+                printf("%s\n", buffer);
+                char filepath[100];
+                scanf("%s", filepath);
+                send(sock, filepath, strlen(filepath), 0);
+                bzero(buffer, sizeof(buffer));
+
             }else if(strstr(data,"logout") != 0){
+
+                printf("----------Logout Session!---------\n");
+                printf("-----SUCCESSFULLY SIGNED OUT-----\n");
                 flag = 0;
+
+            }else if(strstr(data,"delete") != 0){
+
+                printf("-----Delete Session!------\n");
+                scanf("%s",name);
+                send(sock,name,strlen(name),0);
+
+            }else if(strstr(data,"see") != 0){
+                
+            }else if(strstr(data,"find") != 0){
+                
+            }else if(strstr(data,"download") != 0){
+                
             }
         } 
 
