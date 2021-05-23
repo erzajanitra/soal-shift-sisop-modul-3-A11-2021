@@ -3,9 +3,10 @@
 
 ## Soal 2
 
-Soal No 2 :
-2A : [no2a](https://github.com/erzajanitra/soal-shift-sisop-modul-3-A11-2021/blob/main/soal2/no2a.c)
-2B : [no2b](https://github.com/erzajanitra/soal-shift-sisop-modul-3-A11-2021/blob/main/soal2/no2b.c)
+Soal No 2 : <br/>
+2A : [no2a](https://github.com/erzajanitra/soal-shift-sisop-modul-3-A11-2021/blob/main/soal2/no2a.c)<br/>
+2B : [no2b](https://github.com/erzajanitra/soal-shift-sisop-modul-3-A11-2021/blob/main/soal2/no2b.c)<br/>
+2C : [no2c](https://github.com/erzajanitra/soal-shift-sisop-modul-3-A11-2021/blob/main/soal2/no2c.c)<br/>
 
 ### 2a
 **Soal :** Membuat program perkalian matrix (4x3 dengan 3x6) dan menampilkan hasilnya. Matriks nantinya akan berisi angka 1-20 (tidak perlu dibuat filter angka).
@@ -149,7 +150,50 @@ void* faktorial(void *pairs){
 
 
 ### 2c
-**Soal :**
+**Soal :** Membuat program untuk mengecek 5 proses teratas apa saja yang memakan resource komputernya dengan command “ps aux | sort -nrk 3,3 |
+head -5” (Catatan!: Harus menggunakan IPC Pipes)
+* Menjalankan proses `ps aux`
+```
+                close(1);
+                dup(fd1[1]);
+                close(fd1[0]);
+                close(fd2[0]);
+                close(fd2[0]);
+                char *proc[] = {"ps","aux",NULL};
+                execv("/bin/ps", proc);
+ ```
+   
+ * Menjalankan proses `sort -nrk 3,3`
+ ```
+                while((wait(&status2)) > 0);
+                close(0);
+                dup(fd1[0]);
+                close(fd1[1]);
+
+                close(1);
+                dup(fd2[1]);
+                close(fd2[0]);
+                char *sort[] = {"sort","-nrk","3,3",NULL};
+                execv("/usr/bin/sort", sort);
+                // char *head[] = {"head", "-5", NULL};
+                // execv("/usr/bin/head", head);
+  ```
+  * Menjalankan proses `head -5`
+```
+                close(fd1[0]);
+                close(fd1[1]);
+                while((wait(&status)) > 0);
+                close(0);
+                dup(fd2[0]);
+                close(fd2[1]);
+                // char *sort[] = {"sort","-nrk","3,3",NULL};
+                // execv("/usr/bin/sort", sort);
+                char *head[] = {"head", "-5", NULL};
+                execv("/usr/bin/head", head);
+```
+### Kendala yang dialami
+
+### Screenshot Eror
 
 
 ## Soal 3
