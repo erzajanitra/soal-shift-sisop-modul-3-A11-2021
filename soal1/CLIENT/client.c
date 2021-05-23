@@ -142,7 +142,46 @@ int main(int argc, char const *argv[]) {
                 send(sock,name,strlen(name),0);
 
             }else if(strstr(data,"see") != 0){
-                
+                /*
+                while(sock){
+
+                    read(sock, buffer, 1024);
+                    printf("%s\n", buffer);
+                    bzero(buffer, sizeof(buffer));
+
+                    read(sock, buffer, 1024);
+                    printf("%s\n", buffer);
+                    bzero(buffer, sizeof(buffer));
+
+                    read(sock, buffer, 1024);
+                    printf("%s\n", buffer);
+                    bzero(buffer, sizeof(buffer));
+
+                    read(sock, buffer, 1024);
+                    printf("%s\n", buffer);
+                    bzero(buffer, sizeof(buffer));
+
+                    read(sock, buffer, 1024);
+                    printf("%s\n", buffer);
+                    bzero(buffer, sizeof(buffer));
+
+                    read(sock, buffer, 1024);
+                    printf("%s\n", buffer);
+                    bzero(buffer, sizeof(buffer));
+
+                    read(sock, buffer, 1024);
+                    printf("%s\n", buffer);
+                    bzero(buffer, sizeof(buffer));
+
+                    read(sock, buffer, 1024);
+                    printf("%s\n", buffer);
+                    bzero(buffer, sizeof(buffer));
+                    
+                    read(sock, buffer, 1024);
+                    printf("%s\n", buffer);
+                    bzero(buffer, sizeof(buffer));
+                }
+                */
             }else if(strstr(data,"find") != 0){
                 
             }else if(strstr(data,"download") != 0){
