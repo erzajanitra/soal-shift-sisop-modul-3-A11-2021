@@ -1,5 +1,15 @@
 # soal-shift-sisop-modul-3-A11-2021
 ## Soal 1
+### 1a
+**Soal :** Pada saat client tersambung dengan server, terdapat dua pilihan pertama, yaitu register dan login. Jika memilih register, client akan diminta input id dan
+passwordnya untuk dikirimkan ke server. User juga dapat melakukan login. Login berhasil jika id dan password yang dikirim dari aplikasi client sesuai dengan list
+akun yang ada didalam aplikasi server. Sistem ini juga dapat menerima multi-connections. Koneksi terhitung ketika aplikasi client tersambung dengan server. Jika terdapat 2 koneksi atau lebih maka harus menunggu sampai clientpertama keluar untuk bisa melakukan login dan mengakses aplikasinya. Keverk menginginkan lokasi penyimpanan id dan password pada file bernama akun.txt 
+
+#### Kendala yang dialami
+
+#### Screenshot Eror
+1. Terjadi segmentation fault ketika ingin login dengan mengisi username dan password <br/>
+![image](https://user-images.githubusercontent.com/75319371/119260582-a8520680-bbfd-11eb-9242-1d4b2f146c4d.png)
 
 ## Soal 2
 
