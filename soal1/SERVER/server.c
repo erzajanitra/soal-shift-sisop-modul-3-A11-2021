@@ -16,7 +16,7 @@ int opt = 1;
 int sock = 0;
 char buffer[1024] = {0};
 int addrlen = sizeof(address);
-FILE *fp,*fr,*tsv;
+FILE *fp,*fr,*tsv,*mlog;
 char data[100], name[100];
 int flag = 0;//set belum ada client yg login. 
 int file_no = 1;
@@ -29,6 +29,7 @@ struct fileDetails{
     char name[100];
     char publisher[100];
     char year_pub[100];
+    char ext[10];
     char filepath[100];
 };
 
@@ -67,7 +68,12 @@ int main(int argc, char const *argv[]){
     }
     
     fp = fopen("/home/tsania/Documents/sisopshift3/no1/SERVER/akun.txt","a");
+    mlog = fopen("/home/tsania/Documents/sisopshift3/no1/SERVER/running.log","a");
     fr = fopen("/home/tsania/Documents/sisopshift3/no1/SERVER/akun.txt","r");
+    tsv = fopen("/home/tsania/Documents/sisopshift3/no1/SERVER/files.tsv", "w");
+    
+    fprintf(tsv, "User\tPublisher\tTahunPublikasi\tFilepath\t\n");
+    fclose(tsv);
   
     mkdir("FILES",0777);//automated directory-creation while server runs.
     printf("Server Ready!\n");
@@ -75,8 +81,10 @@ int main(int argc, char const *argv[]){
     printf("%s",buffer);
     bzero(buffer,sizeof(buffer));
 
-    while(new_socket){
+    char user[100];
+    while(1){
 
+        if(flag == 0){
         //printf("Ini Flag : %d\n",flag);
         send(new_socket,"Type command to continue..\n",27,0);
 
@@ -118,12 +126,15 @@ int main(int argc, char const *argv[]){
             while(fgets(data2, sizeof(data2),fr) != NULL){
                 if(strstr(data2,str) != 0){
                     flag = 1;
+                    sprintf(user,"(%s)",str);
                     send(new_socket,"Login Success!\n",15,0);
                 }
             }
         }
+
+        }
         
-        while(flag == 1){
+        else if(flag == 1){
 
             printf("User Authority\n");
 
@@ -133,46 +144,93 @@ int main(int argc, char const *argv[]){
 
             if(strstr(data,"add") != 0){
                 printf("Add Session\n");
-
-                send(new_socket, "Filename:", 9, 0);
-                read(new_socket, buffer, 1024);
-                strcpy(f[n].name, buffer);
-                bzero(buffer, sizeof(buffer));
-                fp = fopen(f[n].name, "w");
-                fprintf(fp, "%d-st/nd/rd/th File Created Successfully.", file_no);
-                file_no++;
-                fclose(fp);
-
-                send(new_socket, "Publisher:", 10, 0);
+               
+                send(new_socket, "Publisher: ", 11, 0);
                 read(new_socket, buffer, 1024);
 
                 char record[100];
                 strcpy(f[n].publisher, buffer);
-                strcat(record, f[n].publisher);
+                strcpy(record, f[n].publisher);
                 strcat(record, "\t");
                 bzero(buffer, sizeof(buffer));
 
-                send(new_socket, "Tahun Publikasi:", 17, 0);
+                send(new_socket, "Tahun Publikasi: ", 18, 0);
                 read(new_socket, buffer, 1024);
-                bzero(buffer, sizeof(buffer));
-
-                strcat(f[n].year_pub, buffer);
+                
+                strcpy(f[n].year_pub, buffer);
                 strcat(record, f[n].year_pub);
                 strcat(record, "\t");
+                bzero(buffer, sizeof(buffer));
 
+                send(new_socket, "Filepath: ", 11, 0);
+                read(new_socket, buffer, 1024);
+                strcpy(f[n].filepath, buffer);
+                
                 char fileee[100];
+                getcwd(fileee,sizeof(fileee));
 
-                getcwd(fileee, sizeof(fileee));
-
-                strcpy(f[n].filepath, fileee);
+                sprintf(f[n].name,"file%d.pdf",n);
+                strcat(f[n].filepath,"/");
                 strcat(f[n].filepath, f[n].name);
                 strcat(record, f[n].filepath);
+                bzero(buffer, sizeof(buffer));
+                sprintf(fileee,"%s/FILES/%s",fileee,f[n].name);
+                
+                fp = fopen(fileee,"w");
+                fprintf(fp,"File #%d Created Successfully.",file_no);
+                file_no++;
+                fclose(fp);
 
-                tsv = fopen("/home/tsania/Documents/sisopshift3/no1/SERVER/FILES/files.tsv", "a");
+                tsv = fopen("/home/tsania/Documents/sisopshift3/no1/SERVER/files.tsv", "a");
                 fprintf(tsv, "%s\n", record);
 
                 fclose(tsv);
+
+                mlog = fopen("/home/tsania/Documents/sisopshift3/no1/SERVER/running.log","a");
+
+                fprintf(mlog,"Tambah : %s %s\n",f[n].name,user);
+                fclose(mlog);
+
                 n++;
+
+            }else if(strstr(data,"download") != 0){
+
+            }else if(strstr(data,"delete") != 0){
+                 
+                char doc[100];
+                read(new_socket,buffer,1024);
+                strcpy(doc,buffer);
+                bzero(buffer,sizeof(buffer));
+
+                struct dirent *de;
+                DIR *dr = opendir("FILES");
+
+                while((de = readdir(dr)) != NULL){
+                    if(strstr(de->d_name,doc) != 0){
+                        remove(de->d_name);
+                    }    
+                }
+                closedir(dr);
+
+                tsv = fopen("/home/tsania/Documents/sisopshift3/no1/SERVER/files.tsv","w");    
+                
+                char doc2[100];
+                while(fgets(doc2, sizeof(doc2),tsv) != NULL){
+                    if(strstr(doc,doc2)!= 0){
+                        char *temp = doc2;
+                        memset(doc2,0,sizeof(doc2));
+                        fprintf(tsv,"%s\n",doc2);
+                        break;
+                    }
+                }
+                fclose(tsv);
+
+            }else if(strstr(data,"see") != 0){
+
+                
+
+            }else if(strstr(data,"find") != 0){
+
             }else if(strstr(data,"logout") != 0){
                 flag = 0;
             }
