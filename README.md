@@ -1,5 +1,9 @@
 # soal-shift-sisop-modul-3-A11-2021
 ## Soal 1
+
+- SERVER : https://github.com/erzajanitra/soal-shift-sisop-modul-3-A11-2021/blob/main/soal1/SERVER/server.c
+- CLIENT : https://github.com/erzajanitra/soal-shift-sisop-modul-3-A11-2021/blob/main/soal1/CLIENT/client.c
+
 ### Server
 * Register
 ```
@@ -40,6 +44,120 @@
                     send(new_socket,"Login Success!\n",15,0);
 ```
    Server menerima *login* message dari client, kemudian mengirimkan permintaan *username* dan *password*. Server akan mengecek *username* dan *password*. Jika berhasil ditemukan maka akan menyimpan user yang sedang login dan mengirim pesan sukses. Apabila tidak ditemukan, maka akan mengirim pesan login gagal.
+* add
+```
+if(strstr(data,"add") != 0){
+                printf("Add Session\n");
+               
+                send(new_socket, "Publisher: ", 11, 0);
+                read(new_socket, buffer, 1024);
+
+                char record[100];
+                strcpy(f[n].publisher, buffer);
+                strcpy(record, f[n].publisher);
+                strcat(record, "\t");
+                bzero(buffer, sizeof(buffer));
+
+                send(new_socket, "Tahun Publikasi: ", 18, 0);
+                read(new_socket, buffer, 1024);
+                
+                strcpy(f[n].year_pub, buffer);
+                strcat(record, f[n].year_pub);
+                strcat(record, "\t");
+                bzero(buffer, sizeof(buffer));
+
+                send(new_socket, "Filepath: ", 11, 0);
+                read(new_socket, buffer, 1024);
+                strcpy(f[n].filepath, buffer);
+                
+                char fileee[100];
+                getcwd(fileee,sizeof(fileee));
+
+                sprintf(f[n].name,"file%d.pdf",n);
+                strcat(f[n].filepath,"/");
+                strcat(f[n].filepath, f[n].name);
+                strcat(record, f[n].filepath);
+                bzero(buffer, sizeof(buffer));
+                sprintf(fileee,"%s/FILES/%s",fileee,f[n].name);
+                
+                fp = fopen(fileee,"w");
+                fprintf(fp,"File #%d Created Successfully.",file_no);
+                file_no++;
+                fclose(fp);
+
+                tsv = fopen("/home/tsania/Documents/sisopshift3/no1/SERVER/files.tsv", "a");
+                fprintf(tsv, "%s\n", record);
+
+                fclose(tsv);
+
+                mlog = fopen("/home/tsania/Documents/sisopshift3/no1/SERVER/running.log","a");
+
+                fprintf(mlog,"Tambah : %s %s\n",f[n].name,user);
+                fclose(mlog);
+
+                n++;
+
+            }
+```
+add berfungsi untuk menambahkan identitas data file baru dan mencetak file baru pada folder FILES dalam server.
+* delete
+```
+else if(strstr(data,"delete") != 0){
+                 
+                char doc[100];
+                read(new_socket,buffer,1024);
+                strcpy(doc,buffer);
+                bzero(buffer,sizeof(buffer));
+
+                struct dirent *de;
+                DIR *dr = opendir("FILES");
+
+                while((de = readdir(dr)) != NULL){
+                    if(strstr(de->d_name,doc) != 0){
+                        remove(de->d_name);
+                    }    
+                }
+                closedir(dr);
+
+                tsv = fopen("/home/tsania/Documents/sisopshift3/no1/SERVER/files.tsv","w");    
+                
+                char doc2[100];
+                while(fgets(doc2, sizeof(doc2),tsv) != NULL){
+                    if(strstr(doc,doc2)!= 0){
+                        char *temp = doc2;
+                        memset(doc2,0,sizeof(doc2));
+                        fprintf(tsv,"%s\n",doc2);
+                        break;
+                    }
+                }
+                fclose(tsv);
+
+                mlog = fopen("/home/tsania/Documents/sisopshift3/no1/SERVER/running.log","a");
+
+                fprintf(mlog,"Hapus : %s %s\n",doc,user);
+                fclose(mlog);
+
+            }
+```
+delete berfungsi untuk menghapus identitas data file pada folder FILES serta menghapus filenya.
+* log
+
+- Log Pada Delete
+```
+mlog = fopen("/home/tsania/Documents/sisopshift3/no1/SERVER/running.log","a");
+
+                fprintf(mlog,"Hapus : %s %s\n",doc,user);
+                fclose(mlog);
+```
+- Log Pada Add
+```
+ mlog = fopen("/home/tsania/Documents/sisopshift3/no1/SERVER/running.log","a");
+
+                fprintf(mlog,"Tambah : %s %s\n",f[n].name,user);
+                fclose(mlog);
+
+```
+kedua log berfungsi untuk merekam tiap aktivitas pada penambahan dan penghapusan data.
    
 ### Client
 * Register
@@ -121,12 +239,21 @@
    Client mengirimkan pesan berupa string *publisher*, *year_pub*, dan *filepath* kepada server yang akan disimpan pada file tsv. Kumpulan file tsv ini akan disimpan pada folder FILES
 
 #### Kendala yang dialami
-1. Tidak bisa melakukan register dan login karena terjadi segmentation fault pada sisi server dan client ketika memasukkan username dan password
-2. Belum bisa melakukan multiuser 
+1. Belum bisa melakukan multiuser 
+2. `files.tsv` tidak dapat menampung dan menampilkan data yang diinputkan
 
 #### Screenshot Eror
-1. Terjadi segmentation fault ketika ingin login dengan mengisi username dan password <br/>
-![image](https://user-images.githubusercontent.com/75319371/119260582-a8520680-bbfd-11eb-9242-1d4b2f146c4d.png)
+1.![image](https://user-images.githubusercontent.com/69724694/119264798-bceaca80-bc0e-11eb-90cf-a18d07f8076d.png)
+
+#### OUTPUT PROGRAM
+1. Register & Login, Add Session, Delete Session
+![image](https://user-images.githubusercontent.com/69724694/119265084-a729d500-bc0f-11eb-87b5-710ebd1e7698.png)
+
+2. Files And Directory Creation
+![image](https://user-images.githubusercontent.com/69724694/119265104-ba3ca500-bc0f-11eb-8e79-0d4b5ceb0055.png)
+![image](https://user-images.githubusercontent.com/69724694/119265116-c7f22a80-bc0f-11eb-9f6c-fb2c921ad3f1.png)
+
+
 
 ## Soal 2
 
@@ -328,7 +455,7 @@ pada bagian ini terjadi pemrosesan terakhir dimana output dari filedescriptor ke
 1. Pada saat mengerjakan nomor 2c, output yang dihasilkan tidak sesuai karena kesalahan urutan dalam proses mengeksekusi. Maka kami memperbaiki urutan eksekusi dengan mengeksekusi *ps aux* dan  *sort -nrk 3,3* pada child process, sedangkan *head -5* dieksekusi pada parent process. Hal ini dilakukan agar proses mengeksekusi *ps aux*, *sort*, dan terakhir *head* secara berurutan.
 
 ### Screenshot Eror
-1. output tidak bisa ditampilkan pada program sebelum revisi<br/>
+1. output tidak bisa ditampilkan pada program sebelum revisi. <br\>
 ![image](https://user-images.githubusercontent.com/69724694/119259752-e6e5c200-bbf9-11eb-9623-c10c7791ffb9.png)
 
 
