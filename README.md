@@ -162,6 +162,7 @@ head -5” (Catatan!: Harus menggunakan IPC Pipes)
                 char *proc[] = {"ps","aux",NULL};
                 execv("/bin/ps", proc);
  ```
+fd1[0] adalah file descriptor untuk membaca input pertama. fd1[1] adalah file descriptor untuk menuliskan output pertama.fd2[0] adalah file descriptor untuk membaca input kedua. fd2[1] adalah file descriptor untuk menuliskan output kedua. pada source code di atas diketahui bahwa terjadi penulisan proses pertama yaitu ps -aux pada file descriptr pertama sedangkan file descriptor lain ditutup.
    
  * Menjalankan proses `sort -nrk 3,3`
  ```
@@ -177,6 +178,7 @@ head -5” (Catatan!: Harus menggunakan IPC Pipes)
                 execv("/usr/bin/sort", sort);
             
   ```
+  pada source code di atas diketahui bahwa terjadi pembacaan output dari input atau penulisan proses pertama yaitu `ps -aux` pada file descriptor pertama. pada saat yg bersamaan output dari file descriptor yg pertama berposisi sebagai output filedescriptor pertama diproses bersamaan dengan `sort -nrk 3,3` yang kemudian hasil dari proses kedua command tersebut juga diinputkan pada file descriptor kedua.
   * Menjalankan proses `head -5`
 ```
                 close(fd1[0]);
@@ -190,6 +192,8 @@ head -5” (Catatan!: Harus menggunakan IPC Pipes)
                 char *head[] = {"head", "-5", NULL};
                 execv("/usr/bin/head", head);
 ```
+pada bagian ini terjadi pemrosesan terakhir dimana output dari filedescriptor kedua berakhir dari input dari proses sebelumnya yang diolah bersamaan dengan command terakhir yaitu `head -5`
+
 * Output nomor 2c <br\>
 ![image](https://user-images.githubusercontent.com/75319371/119258138-a171c680-bbf2-11eb-9e2e-cdadf0e2107d.png)
 
@@ -197,6 +201,8 @@ head -5” (Catatan!: Harus menggunakan IPC Pipes)
 1. Pada saat mengerjakan nomor 2c, output yang dihasilkan tidak sesuai karena kesalahan urutan dalam proses mengeksekusi. Maka kami memperbaiki urutan eksekusi dengan mengeksekusi *ps aux* dan  *sort -nrk 3,3* pada child process, sedangkan *head -5* dieksekusi pada parent process. Hal ini dilakukan agar proses mengeksekusi *ps aux*, *sort*, dan terakhir *head* secara berurutan.
 
 ### Screenshot Eror
+1. output tidak bisa ditampilkan pada program sebelum revisi.
+![image](https://user-images.githubusercontent.com/69724694/119259752-e6e5c200-bbf9-11eb-9623-c10c7791ffb9.png)
 
 
 ## Soal 3
