@@ -44,9 +44,9 @@
                     send(new_socket,"Login Success!\n",15,0);
 ```
    Server menerima *login* message dari client, kemudian mengirimkan permintaan *username* dan *password*. Server akan mengecek *username* dan *password*. Jika berhasil ditemukan maka akan menyimpan user yang sedang login dan mengirim pesan sukses. Apabila tidak ditemukan, maka akan mengirim pesan login gagal.
-* add
+* Add
 ```
-if(strstr(data,"add") != 0){
+                if(strstr(data,"add") != 0){
                 printf("Add Session\n");
                
                 send(new_socket, "Publisher: ", 11, 0);
@@ -99,8 +99,8 @@ if(strstr(data,"add") != 0){
 
             }
 ```
-add berfungsi untuk menambahkan identitas data file baru dan mencetak file baru pada folder FILES dalam server.
-* delete
+   Server menerima input *publisher*, *year_pub*, dan *filepath* dari client dan menambahkan identitas data file baru tersebut pada file tsv. File tsv akan dicetak akan disimpan padaa folder FILES dalam server.
+* Delete
 ```
 else if(strstr(data,"delete") != 0){
                  
@@ -139,17 +139,15 @@ else if(strstr(data,"delete") != 0){
 
             }
 ```
-delete berfungsi untuk menghapus identitas data file pada folder FILES serta menghapus filenya.
-* log
-
-- Log Pada Delete
+   Server akan menjalankan fungsi `delete` apabila *client* mengirimkan pesan *delete* kepada server. Delete berfungsi untuk menghapus identitas data file pada folder FILES serta menghapus filenya.
+* Log Pada Delete
 ```
 mlog = fopen("/home/tsania/Documents/sisopshift3/no1/SERVER/running.log","a");
 
                 fprintf(mlog,"Hapus : %s %s\n",doc,user);
                 fclose(mlog);
 ```
-- Log Pada Add
+* Log Pada Add
 ```
  mlog = fopen("/home/tsania/Documents/sisopshift3/no1/SERVER/running.log","a");
 
@@ -157,7 +155,7 @@ mlog = fopen("/home/tsania/Documents/sisopshift3/no1/SERVER/running.log","a");
                 fclose(mlog);
 
 ```
-kedua log berfungsi untuk merekam tiap aktivitas pada penambahan dan penghapusan data.
+ Server dapat menyimpan log untuk merekam tiap aktivitas pada penambahan dan penghapusan data.
    
 ### Client
 * Register
@@ -238,20 +236,19 @@ kedua log berfungsi untuk merekam tiap aktivitas pada penambahan dan penghapusan
 ```
    Client mengirimkan pesan berupa string *publisher*, *year_pub*, dan *filepath* kepada server yang akan disimpan pada file tsv. Kumpulan file tsv ini akan disimpan pada folder FILES
 
-#### Kendala yang dialami
+#### Kendala yang dialami<br/>
 1. Belum bisa melakukan multiuser 
 2. `files.tsv` tidak dapat menampung dan menampilkan data yang diinputkan
 
-#### Screenshot Eror
-1.![image](https://user-images.githubusercontent.com/69724694/119264798-bceaca80-bc0e-11eb-90cf-a18d07f8076d.png)
+#### Screenshot Eror<br/>
+1.![image](https://user-images.githubusercontent.com/69724694/119264798-bceaca80-bc0e-11eb-90cf-a18d07f8076d.png)<br/>
 
-#### OUTPUT PROGRAM
-1. Register & Login, Add Session, Delete Session
-![image](https://user-images.githubusercontent.com/69724694/119265084-a729d500-bc0f-11eb-87b5-710ebd1e7698.png)
-
-2. Files And Directory Creation
-![image](https://user-images.githubusercontent.com/69724694/119265104-ba3ca500-bc0f-11eb-8e79-0d4b5ceb0055.png)
-![image](https://user-images.githubusercontent.com/69724694/119265116-c7f22a80-bc0f-11eb-9f6c-fb2c921ad3f1.png)
+#### Output No 1<br/>
+1. Register & Login, Add Session, Delete Session<br/>
+![image](https://user-images.githubusercontent.com/69724694/119265084-a729d500-bc0f-11eb-87b5-710ebd1e7698.png)<br/>
+2. Files And Directory Creation<br/>
+![image](https://user-images.githubusercontent.com/69724694/119265104-ba3ca500-bc0f-11eb-8e79-0d4b5ceb0055.png)<br/>
+![image](https://user-images.githubusercontent.com/69724694/119265116-c7f22a80-bc0f-11eb-9f6c-fb2c921ad3f1.png)<br/>
 
 
 
