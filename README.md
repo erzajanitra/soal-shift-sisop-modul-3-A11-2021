@@ -86,10 +86,43 @@
                 flag = 1;
             }
 ```
-   Client mengirim message *login* ke server, kemudiaan memasukkan *username* dan *password*.
+   Client mengirim message *login* ke server, kemudiaan memasukkan *username* dan *password*. Setiap client yang login akan disimpan pada file log.
+ * Logout
+ ```
+                printf("----------Logout Session!---------\n");
+                printf("-----SUCCESSFULLY SIGNED OUT-----\n");
+                flag = 0;
+ ```
+   Menampilkan pesan logout apabila user melakukan logout.
+ * Menambahkan buku (add)
+ ```
+                printf("-----Add Session!------\n");
+                read(sock, buffer, 1024);
+                printf("%s\n", buffer);
+                char publisher[100];
+                scanf("%s", publisher);
+                bzero(buffer, sizeof(buffer));
+                send(sock, publisher, strlen(publisher), 0);
+
+                read(sock, buffer, 1024);
+                printf("%s\n", buffer);
+                char year_pub[100];
+                scanf("%s", year_pub);
+                bzero(buffer, sizeof(buffer));
+                send(sock, year_pub, strlen(year_pub), 0);
+
+                read(sock, buffer, 1024);
+                printf("%s\n", buffer);
+                char filepath[100];
+                scanf("%s", filepath);
+                send(sock, filepath, strlen(filepath), 0);
+                bzero(buffer, sizeof(buffer));
+```
+   Client mengirimkan pesan berupa string *publisher*, *year_pub*, dan *filepath* kepada server yang akan disimpan pada file tsv. Kumpulan file tsv ini akan disimpan pada folder FILES
 
 #### Kendala yang dialami
 1. Tidak bisa melakukan register dan login karena terjadi segmentation fault pada sisi server dan client ketika memasukkan username dan password
+2. Belum bisa melakukan multiuser 
 
 #### Screenshot Eror
 1. Terjadi segmentation fault ketika ingin login dengan mengisi username dan password <br/>
