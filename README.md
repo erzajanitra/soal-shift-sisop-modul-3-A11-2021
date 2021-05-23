@@ -175,8 +175,7 @@ head -5” (Catatan!: Harus menggunakan IPC Pipes)
                 close(fd2[0]);
                 char *sort[] = {"sort","-nrk","3,3",NULL};
                 execv("/usr/bin/sort", sort);
-                // char *head[] = {"head", "-5", NULL};
-                // execv("/usr/bin/head", head);
+            
   ```
   * Menjalankan proses `head -5`
 ```
@@ -191,7 +190,11 @@ head -5” (Catatan!: Harus menggunakan IPC Pipes)
                 char *head[] = {"head", "-5", NULL};
                 execv("/usr/bin/head", head);
 ```
+* Output nomor 2c <br\>
+![image](https://user-images.githubusercontent.com/75319371/119258138-a171c680-bbf2-11eb-9e2e-cdadf0e2107d.png)
+
 ### Kendala yang dialami
+1. Pada saat mengerjakan nomor 2c, output yang dihasilkan tidak sesuai karena kesalahan urutan dalam proses mengeksekusi. Maka kami memperbaiki urutan eksekusi dengan mengeksekusi *ps aux* dan  *sort -nrk 3,3* pada child process, sedangkan *head -5* dieksekusi pada parent process. Hal ini dilakukan agar proses mengeksekusi *ps aux*, *sort*, dan terakhir *head* secara berurutan.
 
 ### Screenshot Eror
 
