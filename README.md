@@ -201,7 +201,7 @@ pada bagian ini terjadi pemrosesan terakhir dimana output dari filedescriptor ke
 1. Pada saat mengerjakan nomor 2c, output yang dihasilkan tidak sesuai karena kesalahan urutan dalam proses mengeksekusi. Maka kami memperbaiki urutan eksekusi dengan mengeksekusi *ps aux* dan  *sort -nrk 3,3* pada child process, sedangkan *head -5* dieksekusi pada parent process. Hal ini dilakukan agar proses mengeksekusi *ps aux*, *sort*, dan terakhir *head* secara berurutan.
 
 ### Screenshot Eror
-1. output tidak bisa ditampilkan pada program sebelum revisi.
+1. output tidak bisa ditampilkan pada program sebelum revisi. <br\>
 ![image](https://user-images.githubusercontent.com/69724694/119259752-e6e5c200-bbf9-11eb-9623-c10c7791ffb9.png)
 
 
