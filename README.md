@@ -1,7 +1,6 @@
 # soal-shift-sisop-modul-3-A11-2021
 ## Soal 1
 ### Server
-#### 1a
 * Register
 ```
             char str[100];
