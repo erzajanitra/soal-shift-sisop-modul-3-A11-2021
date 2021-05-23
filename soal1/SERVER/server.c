@@ -225,9 +225,27 @@ int main(int argc, char const *argv[]){
                 }
                 fclose(tsv);
 
-            }else if(strstr(data,"see") != 0){
+                mlog = fopen("/home/tsania/Documents/sisopshift3/no1/SERVER/running.log","a");
 
-                
+                fprintf(mlog,"Hapus : %s %s\n",doc,user);
+                fclose(mlog);
+
+            }else if(strstr(data,"see") != 0){/*
+
+                while(f != NULL){
+                    send(new_socket,"Nama : ",7,0);
+                    send(new_socket,f[n].name,strlen(f[n].name),0);
+                    send(new_socket,"Publisher : ",11,0);
+                    send(new_socket,f[n].publisher,strlen(f[n].publisher),0);
+                    send(new_socket,"Tahun Publishing : ",19,0);
+                    send(new_socket,f[n].year_pub,strlen(f[n].year_pub),0);
+                    send(new_socket,"Ekstensi File: ",15,0);
+
+                    send(new_socket,"Filepath : ",11,0);
+                    send(new_socket,f[n].filepath,strlen(f[n].filepath),0);
+                }
+
+                */
 
             }else if(strstr(data,"find") != 0){
 
