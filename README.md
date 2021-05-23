@@ -241,7 +241,8 @@ mlog = fopen("/home/tsania/Documents/sisopshift3/no1/SERVER/running.log","a");
 2. `files.tsv` tidak dapat menampung dan menampilkan data yang diinputkan
 
 #### Screenshot Eror<br/>
-1.![image](https://user-images.githubusercontent.com/69724694/119264798-bceaca80-bc0e-11eb-90cf-a18d07f8076d.png)<br/>
+1. Data yang diinput oleh client tidak dapat tersimpan pada `files.tsv`
+![image](https://user-images.githubusercontent.com/69724694/119264798-bceaca80-bc0e-11eb-90cf-a18d07f8076d.png)<br/>
 
 #### Output No 1<br/>
 1. Register & Login, Add Session, Delete Session<br/>
